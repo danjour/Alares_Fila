@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Operador</title>
+</head>
+<body>
+    <h1>Bem-vindo, {{ guiche }}</h1>
+    <p>Senha Atual: {{ senha_atual }}</p>
+    
+    <form action="/operador" method="POST">
+        <button class="btn btn-primary" onclick="reproduzirSom()">Chamar Próximo</button>
+
+    </form>
+
+    <h2>Fila Normal</h2>
+    {% if fila_normal %}
+        <ul>
+            {% for senha in fila_normal %}
+                <li>{{ senha }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Não há senhas na fila normal.</p>
+    {% endif %}
+    
+    <h2>Fila Prioridade</h2>
+    {% if fila_prioridade %}
+        <ul>
+            {% for senha in fila_prioridade %}
+                <li>{{ senha }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Não há senhas na fila de prioridade.</p>
+    {% endif %}
+    
+    <script>
+    function chamarProximo() {
+        var soundChannel = new BroadcastChannel('sound_channel');
+        soundChannel.postMessage('play_sound');
+    }
+    </script>
+</body>
+</html>

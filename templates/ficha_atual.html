@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ficha Atual</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <audio id="sound" src="{{ url_for('static', filename='som.mp3') }}"></audio>
+    <meta http-equiv="refresh" content="2">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://i.imgur.com/7D2Pm7W.png");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .titulo-fila {
+            font-size: 8vw;
+            font-weight: bold;
+            color: #5953F7;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .fila {
+            font-size: 6vw;
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+        }
+        
+        .titulo-guiche {
+            font-size: 4vw;
+            font-weight: bold;
+            color: #5953F7;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .guiche {
+            font-size: 4vw;
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+            margin-top: 1vw;
+        }
+
+        .historico {
+            font-size: 3vw;
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+            margin-top: 1vw;
+        }
+    </style>
+    
+    <script>
+        var soundChannel = new BroadcastChannel('sound_channel');
+        
+        soundChannel.onmessage = function(event) {
+            if (event.data === 'play_sound') {
+                reproduzirSom();
+            }
+        };
+        
+        function reproduzirSom() {
+        var audio = new Audio('{{ url_for("static", filename="audio/som.mp3") }}');
+        audio.play();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="titulo-fila">FICHA ATUAL</div>
+        <div class="fila">{{ historico[0][0] if historico else '' }}</div>
+        <div class="titulo-guiche">Guichê:</div>
+        <div class="guiche">{{ historico[0][1] if historico else '' }}</div>
+        <div class="historico">
+            <strong>Histórico:</strong><br>
+            {% for ficha, guiche in historico %}
+                Ficha: {{ ficha }} | Guichê: {{ guiche }}<br>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

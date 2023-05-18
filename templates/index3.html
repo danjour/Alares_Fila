@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fila Atual</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="11">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://i.imgur.com/RjqyxWA.png");
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .titulo-fila {
+            font-size: 10vw; /* Usando unidades de viewport para o tamanho da fonte */
+            font-weight: bold;
+            color: #5953F7;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .fila {
+            font-size: 8vw; /* Usando unidades de viewport para o tamanho da fonte */
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+        }
+
+        .titulo-guiche {
+            font-size: 5vw; /* Usando unidades de viewport para o tamanho da fonte */
+            font-weight: bold;
+            color: #5953F7;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .guiche {
+            font-size: 5vw; /* Usando unidades de viewport para o tamanho da fonte */
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+            margin-top: 3vw; /* Usando unidades de viewport para a margem superior */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="titulo-fila">FICHA ATUAL</div>
+        <div class="fila">{{ senha_atual }}</div>
+        <div class="titulo-guiche">Guichê:</div>
+        <div class="guiche">{{ historico[0][1] if historico else '' }}</div>
+        <div class="historico">
+            <strong>Histórico:</strong><br>
+            {% for ficha, guiche in historico %}
+                Ficha: {{ ficha }} | Guichê: {{ guiche }}<br>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

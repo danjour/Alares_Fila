@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comparar Histórico</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://i.imgur.com/7D2Pm7W.png");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .titulo {
+            font-size: 8vw;
+            font-weight: bold;
+            color: #5953F7;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .resultado {
+            font-size: 6vw;
+            font-weight: bold;
+            color: #5953F7;
+            text-align: center;
+        }
+    </style>
+    
+    <script>
+        var historicoAntigo = 0;
+        
+        function reproduzirSom() {
+            var audioElement = document.getElementById('sound');
+            audioElement.play();
+        }
+        
+        function verificarMudancaHistorico() {
+            fetch('/verificar_mudanca_historico')
+                .then(response => response.json())
+                .then(data => {
+                    var historicoNovo = data.historico_novo;
+    
+                    var resultado = "Histórico Antigo: " + historicoAntigo + "<br>";
+                    resultado += "Histórico Novo: " + historicoNovo;
+    
+                    document.getElementById('resultado').innerHTML = resultado;
+    
+                    if (historicoNovo > historicoAntigo) {
+                        reproduzirSom();
+                    }
+                    
+                    historicoAntigo = historicoNovo;
+                })
+                .catch(error => {
+                    console.log('Erro ao verificar mudança de histórico:', error);
+                });
+        }
+        
+        setInterval(verificarMudancaHistorico, 5000); // Verifica a cada 5 segundos
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="titulo">Comparar Histórico</div>
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <audio id="sound" src="{{ url_for('static', filename='sound.mp3') }}"></audio>
+</body>
+</html>
